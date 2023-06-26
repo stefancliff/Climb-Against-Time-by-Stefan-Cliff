@@ -1,7 +1,8 @@
 # Climb Against Time by Stefan Cliff
 
- This is my bachelors thesis project, 
- The main technology I'll be using is Unity (C#), but some assisting ones are:
+ This is my bachelors thesis project!
+
+ The main technology I'll be using is Unity (version 2022.3.3f1), but some assisting ones are:
     - 
     -
 
