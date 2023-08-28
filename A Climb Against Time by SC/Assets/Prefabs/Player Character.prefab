@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3325945717620437614}
   - component: {fileID: 4578255989751597850}
   - component: {fileID: 2102864154278530995}
+  - component: {fileID: 1554415329280971514}
   m_Layer: 0
   m_Name: Player Character
   m_TagString: Player
@@ -34,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1874987875514787148
 SpriteRenderer:
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1342151763
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 4723107735738678597, guid: e8b53ab4455751c48a5815dd33dd79fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -173,11 +174,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 7.5
-  maxHealth: 3
-  fallStartTimer: 0
-  regenerationDelay: 30
-  levelTimer: 180
+  jumpForce: 9
+  levelTimer: 90
+  gravity: 5
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -202,3 +201,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1554415329280971514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4043764641907311741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9154bb592f3e8e84ea61dda0dbb586ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1

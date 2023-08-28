@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] public Transform player;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.position = new Vector3(player.position.x, player.position.y, player.position.z-2);
     }
 
     // Update is called once per frame

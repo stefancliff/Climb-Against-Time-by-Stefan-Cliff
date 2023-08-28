@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -12,10 +13,10 @@ TagManager:
   - Water
   - UI
   - Terrain Layer
+  - Hazards
   - 
+  - Enviroment Layer
   - Player
-  - 
-  - 
   - 
   - 
   - 
@@ -46,6 +47,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 647018215
+    locked: 0
+  - name: Hazards
+    uniqueID: 3371452565
     locked: 0
   - name: Player
     uniqueID: 2952815533

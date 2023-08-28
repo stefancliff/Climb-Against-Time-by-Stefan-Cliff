@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Diagnostics;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 { 
         
-    public float    moveSpeed           = 5f;
-    public float    jumpForce           = 10f;
-    public int      maxHealth           = 3;
-    public float    fallTimer      = 0f;
-    public float    regenerationDelay   = 30f; // seconds till health regeneration begins
-    public float    levelTimer          = 180f; // 3 minutes
+    public float moveSpeed  = 5f;
+    public float jumpForce  = 10f;
+    public float levelTimer = 90f; // 1.5 min
+    public float gravity    = 1f;
 
    // public Image timerFillImage; // Reference to the UI timer fill image
 
@@ -21,18 +21,12 @@ public class PlayerMovement : MonoBehaviour
     private Animator        PlayerAnimator;
     private SpriteRenderer  spriteRenderer;
     private BoxCollider2D   PlayerCollider2D;
-    [SerializeField] private LayerMask terrainLayer;
-
+    
+    
     private enum MovementState { idle, running, jumping, falling } // 0 -> idle; 1 -> running; 2 -> jumping; 3 -> falling;
     private MovementState state;
-
-    private int     CurrentHealth;
-    private float   lastDamageTime;
-    private float   currentTime;
-    private float   fallDuration = 0f;
-    private bool    isDead = false;
-
-
+    [SerializeField] private LayerMask terrainLayer;
+    
     void Start()
     {
         PlayerCharacter     = GetComponent<Rigidbody2D>();
@@ -40,15 +34,24 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer      = GetComponent<SpriteRenderer>();
         PlayerCollider2D    = GetComponent<BoxCollider2D>();
         terrainLayer        = GetComponent<LayerMask>();
-        CurrentHealth       = maxHealth;
-        isDead              = false;
+        
+        if(PlayerCharacter != null)
+        {
+            PlayerCharacter.gravityScale = gravity;
+            UnityEngine.Debug.Log("Player Character Gravity = " + PlayerCharacter.gravityScale);
 
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Player Character Missing");
+        }
     }
 
     void Update()
     {
         PlayerInput();
-        
+        levelTimer -= Time.deltaTime;
+        UnityEngine.Debug.Log("Player Character Gravity = " + PlayerCharacter.gravityScale);
     }
 
     private void PlayerInput()
@@ -89,7 +92,6 @@ public class PlayerMovement : MonoBehaviour
         else if(PlayerCharacter.velocity.y < -0.1f) 
         {
             state = MovementState.falling;
-            CheckFallDamage();
         }
 
         PlayerAnimator.SetInteger("moveState", (int)state);
@@ -111,41 +113,33 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void CheckFallDamage()
+ /* 
+    private void CheckFallDamage(MovementState state)
     {
-        fallTimer = 0f;                // First we reset the fallTimer to 0 
-        
-        while(state == MovementState.falling)
+        if (state == MovementState.falling)
         {
-            fallTimer = Time.deltaTime;    // Then as each second passes we increase keep track of it
-            
-            if(fallTimer >= 2f && fallTimer < 4f && state != MovementState.falling){
+            // Increment fallTimer by Time.deltaTime
+            fallTimer += Time.deltaTime;
 
+            if (fallTimer >= 2f && fallTimer < 4f)
+            {
                 TakeDamage(1);
             }
-            else if(fallTimer >= 4f && fallTimer < 6f && state != MovementState.falling)
+            else if (fallTimer >= 4f && fallTimer < 6f)
             {
                 TakeDamage(2);
             }
-            else if(fallTimer >= 6f && state != MovementState.falling){
+            else if (fallTimer >= 6f)
+            {
                 TakeDamage(3);
             }
-
         }
-        fallTimer = 0f;
-        
-    }
-
-    private void TakeDamage(int damage)
-    {
-        CurrentHealth -= damage;
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, 3);
-
-        if(CurrentHealth <= 0)
+        else
         {
-            isDead = true;
+            // Reset fallTimer if not falling
+            fallTimer = 0f;
         }
-    }
+} */
 
-    
+
 }
