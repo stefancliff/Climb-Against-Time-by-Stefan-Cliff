@@ -174,9 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 9
-  levelTimer: 90
-  gravity: 5
+  jumpForce: 8.5
+  fallSpeed: 2
   terrainLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -213,4 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9154bb592f3e8e84ea61dda0dbb586ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  CurrentHealth: 3
+  maxHealth: 3
+  takeHit: 0
+  damageKick: {x: 1, y: 8.5}
