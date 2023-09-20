@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Diagnostics;
 using TMPro;
+using System.Numerics;
 
 public class PlayerMovement : MonoBehaviour
 { 
@@ -13,23 +14,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float moveSpeed  = 5f;
     [SerializeField] private float jumpForce = 8.5f;
     [SerializeField] private float fallSpeed = 5f;
+    /* [SerializeField] private float acceleration = 10f;
+    private UnityEngine.Vector3 currentVelocity; */
 
-    private Rigidbody2D     PlayerCharacter;
-    private Animator        PlayerAnimator;
+    private Rigidbody2D     playerCharacter;
+    private Animator        playerAnimator;
     private SpriteRenderer  spriteRenderer;
-    private BoxCollider2D   PlayerCollider2D;
+    private BoxCollider2D   playerCollider2D;
     
     private enum MovementState { idle, running, jumping, falling } // 0 -> idle; 1 -> running; 2 -> jumping; 3 -> falling;
     private MovementState state;
     [Space]
+    [Header("Collision Detection with the Ground")]
     [SerializeField] private LayerMask terrainLayer;
     
     void Start()
     {
-        PlayerCharacter     = GetComponent<Rigidbody2D>();
-        PlayerAnimator      = GetComponent<Animator>();
+        playerCharacter     = GetComponent<Rigidbody2D>();
+        playerAnimator      = GetComponent<Animator>();
         spriteRenderer      = GetComponent<SpriteRenderer>();
-        PlayerCollider2D    = GetComponent<BoxCollider2D>();
+        playerCollider2D    = GetComponent<BoxCollider2D>();
         terrainLayer        = GetComponent<LayerMask>();
         
         /*
@@ -56,23 +60,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-        float moveInput = Input.GetAxis("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
-        bool jumpInput  = Input.GetButtonDown("Jump");
+        float moveInput              = Input.GetAxis("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
+        bool  jumpInput              = Input.GetButtonDown("Jump");
+        float joystickInputMagnitude = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")), 0f, 1f);
+
         
         // Move Right
         if (moveInput > 0) 
         {
-            PlayerCharacter.velocity = new Vector2(moveSpeed * moveInput, PlayerCharacter.velocity.y); // The reason we don't set the Y input to 0 is to not kill any of the previous movement
-            spriteRenderer.flipX = false; // This will flip the sprite to face the correct way
+            playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y); // The reason we don't set the Y input to 0 is to not kill any of the previous movement
+            spriteRenderer.flipX     = false; // This will flip the sprite to face the correct way
             state = MovementState.running;
+            playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
         }
 
         // Move Left
         else if (moveInput < 0) 
         {
-            PlayerCharacter.velocity = new Vector2(moveSpeed * moveInput, PlayerCharacter.velocity.y);
-            spriteRenderer.flipX = true; 
+            playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y);
+            spriteRenderer.flipX     = true; 
             state = MovementState.running;
+            playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
         }
         
         // Idle
@@ -84,18 +92,18 @@ public class PlayerMovement : MonoBehaviour
         // Jumping
         if (jumpInput && isGrounded()) 
         {
-            PlayerCharacter.velocity = new Vector2(PlayerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
+            playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
             state = MovementState.jumping;
         }
 
         // Falling
-        else if (PlayerCharacter.velocity.y < -0.1f) 
+        else if (playerCharacter.velocity.y < -0.1f) 
         {
-            PlayerCharacter.velocity += Vector2.up * Physics2D.gravity.y * (fallSpeed - 1) * Time.deltaTime;
+            playerCharacter.velocity += UnityEngine.Vector2.up * Physics2D.gravity.y * (fallSpeed - 1) * Time.deltaTime;
             state = MovementState.falling;
         }
 
-        PlayerAnimator.SetInteger("moveState", (int)state);
+        playerAnimator.SetInteger("moveState", (int)state);
     }
 
     private bool isGrounded()
@@ -110,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
                                                     the players new collision box with the Terrains collision box
                 terrainLayer                     -> this is what we are comparing our new BoxCast collider with, in this case the ground of the terrain   
         */
-        return Physics2D.BoxCast(PlayerCollider2D.bounds.center, PlayerCollider2D.bounds.size, 0f, Vector2.down, .1f, terrainLayer);
+        return Physics2D.BoxCast(playerCollider2D.bounds.center, playerCollider2D.bounds.size, 0f, UnityEngine.Vector2.down, .1f, terrainLayer);
 
     }
 
