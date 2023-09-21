@@ -10,7 +10,7 @@ public class PlayerHealthUI : MonoBehaviour
     public PlayerDeath player;
     
 
-    void Start()
+    public void Start()
     {
         GameObject playerObject = GameObject.FindWithTag("Player");
 

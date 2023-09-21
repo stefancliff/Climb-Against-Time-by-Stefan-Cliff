@@ -6,25 +6,35 @@ using UnityEngine.UI;
 using UnityEditor.IMGUI.Controls;
 using System;
 using Unity.VisualScripting.InputSystem;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
     public GameSession gameSession; 
     private Queue<string> sentences;
+    [Space]
+    [Header("Dialogue UI ")]
     public TMP_Text dialogueText;
     public TMP_Text speakerText;
+    public Image avatarImage;
     public GameObject dialogueUI;
-
     private int currentAttempt;
-    
     private bool isTyping;
     
-
+    [Space]
+    [Header("Dialogue Triggers")]
+    public GameObject[] dialogueTriggers;
+    
+    private void Awake()
+    {
+        currentAttempt = GameSession.instance.GetCurrentAttempt();
+        UpdateDialogueTriggers(currentAttempt);
+    }
     private void Start()
     {
         sentences = new Queue<string>();
         dialogueUI.SetActive(false);
-        currentAttempt = GameSession.instance.GetCurrentAttempt();
+        
     }
     
     private void Update()
@@ -37,9 +47,10 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale                  = 0f;
         GameSession.instance.isPaused   = true;
         speakerText.text                = dialogue.speaker;
+        
         dialogueUI.SetActive(true);
         sentences.Clear();
-        
+
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
@@ -108,5 +119,55 @@ public class DialogueManager : MonoBehaviour
                 }
             
         }
+    }
+
+    public void UpdateDialogueTriggers(int currentAttempt)
+    {
+        //Debug.Log("Update Dialogue Triggers says the current attempt is: " + currentAttempt);
+        switch(currentAttempt)
+        {
+            case 1:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+            
+            case 2:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+            
+            case 3:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+
+            case 4:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+
+            case 5:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+
+            case 6:
+                EnableOrDisableDialogueTriggers(currentAttempt);
+            break;
+            
+        }
+    }
+
+    public void EnableOrDisableDialogueTriggers(int attemptNumber)
+    {
+        //Debug.Log("EnableOrDisableDialogueTriggers says the current attempt is: " + currentAttempt);
+        
+        for (int i = 0; i < dialogueTriggers.Length; i++)
+        {
+            if (i == currentAttempt - 1) 
+            {
+                dialogueTriggers[i].SetActive(true);
+            }
+            else 
+            {
+                dialogueTriggers[i].SetActive(false);
+            }
+        }
+
     }
 }

@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Parameters")]
     [SerializeField] public float moveSpeed  = 5f;
     [SerializeField] private float jumpForce = 8.5f;
-    [SerializeField] private float fallSpeed = 5f;
+    [SerializeField] private float fallSpeed = 2f;
     /* [SerializeField] private float acceleration = 10f;
     private UnityEngine.Vector3 currentVelocity; */
 
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            float moveInput              = Input.GetAxis("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
+            float moveInput              = Input.GetAxisRaw("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
             bool  jumpInput              = Input.GetButtonDown("Jump");
             float joystickInputMagnitude = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")), 0f, 1f);
 

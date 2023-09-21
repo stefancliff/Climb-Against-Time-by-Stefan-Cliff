@@ -35,6 +35,7 @@ public class PlayerDeath : MonoBehaviour
         {
             TakeDamage(1);
         }
+        
     }
     
     private void TakeDamage(int damage)
