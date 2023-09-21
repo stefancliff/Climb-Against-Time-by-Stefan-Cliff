@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 public class PauseButtonUI : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    public GameObject playerHealthUI;
+    public GameObject playerUI;
     public PlayerMovement playerCharacter;
-
-    public bool isPaused = false;
+    public GameSession gameSession;
     
     private void Start()
     {
         
         GameObject playerObject = GameObject.FindWithTag("Player");
+        gameSession             = GetComponent<GameSession>();
 
         if (playerObject != null) 
         {
@@ -42,25 +42,25 @@ public class PauseButtonUI : MonoBehaviour
 
     public void ResumeGame() 
     {
-        Time.timeScale = 1f;
+        GameSession.instance.isPaused   = false;
+        Time.timeScale                  = 1f;
         pauseMenuUI.SetActive(false);
-        playerHealthUI.SetActive(true);
-        isPaused = false;
+        playerUI.SetActive(true);
         
         
     }
     public void PauseGame() 
     {
-        Time.timeScale = 0f;
+        GameSession.instance.isPaused   = true;
+        Time.timeScale                  = 0f;
         pauseMenuUI.SetActive(true);
-        playerHealthUI.SetActive(false);
-        isPaused = true;
+        playerUI.SetActive(false);
         
     }
 
     public void TogglePause()
     {
-        if (isPaused)
+        if (GameSession.instance.isPaused)
         {
             ResumeGame();
         }

@@ -28,10 +28,6 @@ public class PlayerDeath : MonoBehaviour
         
     }
 
-    void Update()
-    {
-
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -73,6 +69,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void RestartLevel()
     {
+        GameSession.instance.NextAttempt();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

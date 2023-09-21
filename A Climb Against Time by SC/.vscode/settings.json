@@ -52,5 +52,8 @@
         "temp/":true,
         "Temp/":true
     },
-    "dotnet.defaultSolution": "A Climb Against Time by SC.sln"
+    "dotnet.defaultSolution": "A Climb Against Time by SC.sln",
+    "cSpell.words": [
+        "Dont"
+    ]
 }

@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         playerCollider2D    = GetComponent<BoxCollider2D>();
         terrainLayer        = GetComponent<LayerMask>();
         
+        
         /*
         From when I was trying to alter the gravity of the game itself, instead I found a different way to solve the 
         'floaty' feeling when it came to movement
@@ -60,50 +61,57 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-        float moveInput              = Input.GetAxis("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
-        bool  jumpInput              = Input.GetButtonDown("Jump");
-        float joystickInputMagnitude = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")), 0f, 1f);
-
-        
-        // Move Right
-        if (moveInput > 0) 
+        if(GameSession.instance.isPaused)
         {
-            playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y); // The reason we don't set the Y input to 0 is to not kill any of the previous movement
-            spriteRenderer.flipX     = false; // This will flip the sprite to face the correct way
-            state = MovementState.running;
-            playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+            return;
         }
-
-        // Move Left
-        else if (moveInput < 0) 
+        else
         {
-            playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y);
-            spriteRenderer.flipX     = true; 
-            state = MovementState.running;
-            playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+            float moveInput              = Input.GetAxis("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
+            bool  jumpInput              = Input.GetButtonDown("Jump");
+            float joystickInputMagnitude = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")), 0f, 1f);
+
+            
+            // Move Right
+            if (moveInput > 0) 
+            {
+                playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y); // The reason we don't set the Y input to 0 is to not kill any of the previous movement
+                spriteRenderer.flipX     = false; // This will flip the sprite to face the correct way
+                state = MovementState.running;
+                playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+            }
+
+            // Move Left
+            else if (moveInput < 0) 
+            {
+                playerCharacter.velocity = new UnityEngine.Vector2(moveSpeed * moveInput, playerCharacter.velocity.y);
+                spriteRenderer.flipX     = true; 
+                state = MovementState.running;
+                playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+            }
+            
+            // Idle
+            else 
+            {
+                state = MovementState.idle;
+            } 
+
+            // Jumping
+            if (jumpInput && isGrounded()) 
+            {
+                playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
+                state = MovementState.jumping;
+            }
+
+            // Falling
+            else if (playerCharacter.velocity.y < -0.1f) 
+            {
+                playerCharacter.velocity += UnityEngine.Vector2.up * Physics2D.gravity.y * (fallSpeed - 1) * Time.deltaTime;
+                state = MovementState.falling;
+            }
+
+            playerAnimator.SetInteger("moveState", (int)state);
         }
-        
-        // Idle
-        else 
-        {
-            state = MovementState.idle;
-        } 
-
-        // Jumping
-        if (jumpInput && isGrounded()) 
-        {
-            playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
-            state = MovementState.jumping;
-        }
-
-        // Falling
-        else if (playerCharacter.velocity.y < -0.1f) 
-        {
-            playerCharacter.velocity += UnityEngine.Vector2.up * Physics2D.gravity.y * (fallSpeed - 1) * Time.deltaTime;
-            state = MovementState.falling;
-        }
-
-        playerAnimator.SetInteger("moveState", (int)state);
     }
 
     private bool isGrounded()
