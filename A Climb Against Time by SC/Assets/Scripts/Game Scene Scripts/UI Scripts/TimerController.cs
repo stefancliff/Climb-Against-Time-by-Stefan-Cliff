@@ -12,32 +12,40 @@ public class TimerController : MonoBehaviour
     public float currentTime;
     private bool isTimerPaused = true;
     public UnityEngine.UI.Image timerBar;
+    private bool removeTimer = false;
 
     void Start()
     {
         currentTime =  levelTimer;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!isTimerPaused)
+        if(removeTimer == false)
         {
-            // Per second reduction
-            currentTime -= Time.deltaTime;
-
-            // Clamping the timer to avoid negative values
-            currentTime = Mathf.Clamp(currentTime, 0f, levelTimer);
-
-            float fillAmount = currentTime / levelTimer;
-            timerBar.fillAmount = fillAmount;
-
-            if (currentTime <= 0f)
+            if(!isTimerPaused)
             {
-                SceneManager.LoadScene("Game Scene");
-                GameSession.instance.NextAttempt();
+                // Per second reduction
+                currentTime -= Time.deltaTime;
+
+                // Clamping the timer to avoid negative values
+                currentTime = Mathf.Clamp(currentTime, 0f, levelTimer);
+
+                float fillAmount = currentTime / levelTimer;
+                timerBar.fillAmount = fillAmount;
+
+                if (currentTime <= 0f)
+                {
+                    SceneManager.LoadScene("Game Scene");
+                    GameSession.instance.NextAttempt();
+                }
             }
+        }
+        else
+        {
+            currentTime = levelTimer;
+            timerBar.enabled = false;
         }
         
     }
@@ -51,5 +59,10 @@ public class TimerController : MonoBehaviour
     {
         isTimerPaused = false;
         
+    }
+
+    public void EndGameTimer()
+    {
+        removeTimer = true;
     }
 }

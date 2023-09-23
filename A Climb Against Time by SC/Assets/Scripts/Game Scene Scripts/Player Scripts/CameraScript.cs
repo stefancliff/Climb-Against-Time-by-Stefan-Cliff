@@ -6,13 +6,13 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     [SerializeField] public Transform player;
-    private Transform endOfLevelCameraLocation;
+    public GameObject endOfLevelCameraLocation;
     public float moveSpeed  = 2f;
     public float zoomSpeed  = 2f;
     public float zoomAmount = 2f;
     public bool isCameraMoving = false;
-    
     public bool isAtEndOfLevel = false;
+
     void Start()
     {
         transform.position = new Vector3(player.position.x, player.position.y, player.position.z-2);
@@ -27,7 +27,7 @@ public class CameraScript : MonoBehaviour
         }
         else 
         {
-            EndOfLevelCameraMovement(endOfLevelCameraLocation);
+            //EndOfLevelCameraMovement(endOfLevelCameraLocation.transform);
         }
     }
 
@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour
     {
         if(!isCameraMoving)
         {
-            StartCoroutine(MoveCameraToNewAnchor(endOfLevelCameraLocation));
+            StartCoroutine(MoveCameraToNewAnchor(endOfLevelCameraLocation.transform));
         }
     }
 
@@ -50,10 +50,10 @@ public class CameraScript : MonoBehaviour
         transform.parent    = null;
         
         Vector3 initialPosition     = transform.position;
-        Vector3 targetPosition      = endOfLevelCameraLocation.position;
+        Vector3 targetPosition      = endOfLevelCameraLocation.transform.position;
 
         float initialSize   = Camera.main.orthographicSize;
-        float targetSize    = initialSize / zoomAmount;
+        float targetSize    = initialSize + zoomAmount;
 
         float elapsedTime = 0f;
 

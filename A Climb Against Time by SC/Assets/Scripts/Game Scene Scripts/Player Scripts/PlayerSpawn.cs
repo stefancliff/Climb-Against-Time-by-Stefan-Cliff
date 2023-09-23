@@ -7,8 +7,7 @@ public class PlayerSpawn : MonoBehaviour
 {
     [SerializeField] public GameObject PlayerPrefabToInstantiate;
     [SerializeField] public GameObject cameraPrefab;
-    [SerializeField] public Transform endOfLevelCameraLocation;
-    CameraScript cameraScript;
+    private CameraScript cameraScript;
     private GameObject InstantiatedPlayerPrefab;
     void Start()
     {
@@ -16,8 +15,9 @@ public class PlayerSpawn : MonoBehaviour
         
         //Instantiate the camera prefab and attach the camera script to it
         GameObject cameraInstance = Instantiate(cameraPrefab, InstantiatedPlayerPrefab.transform.position, Quaternion.identity);
-        CameraScript cameraScript = cameraInstance.GetComponent<CameraScript>();
+        cameraScript = cameraInstance.GetComponent<CameraScript>();
         cameraInstance.transform.SetParent(InstantiatedPlayerPrefab.transform);
+        cameraScript.isAtEndOfLevel = false;
 
         if (cameraScript != null)
         {
@@ -25,15 +25,5 @@ public class PlayerSpawn : MonoBehaviour
         }
 
         
-    }
-
-    void Update()
-    {
-        if(cameraScript.isAtEndOfLevel)
-        {
-            cameraScript.EndOfLevelCameraMovement(endOfLevelCameraLocation);
-        }
-    }
-
-    
+    }    
 }

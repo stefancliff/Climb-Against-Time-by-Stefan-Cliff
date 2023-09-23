@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2799808518430786536
 Camera:
@@ -106,3 +106,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 6916412097855268872, guid: 252087c0bda43724aa3e2a3f03980a1f, type: 3}
+  endOfLevelCameraLocation: {fileID: 6598777757053708002, guid: 16754a8b896cb2c47a79c8752eab99ec, type: 3}
+  moveSpeed: 2
+  zoomSpeed: 2
+  zoomAmount: 2
+  isCameraMoving: 0
+  isAtEndOfLevel: 0

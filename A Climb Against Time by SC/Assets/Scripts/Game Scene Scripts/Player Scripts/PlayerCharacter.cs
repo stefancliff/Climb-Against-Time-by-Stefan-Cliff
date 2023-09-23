@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     private Animator        playerAnimator;
     private SpriteRenderer  spriteRenderer;
     private BoxCollider2D   playerCollider2D;
+
+    [SerializeField] private AudioClip runningSFXClip;
+    [SerializeField] private AudioSource runningSFX;
+    [SerializeField] private AudioSource jumpingSFX;
+    [SerializeField] private AudioSource landingSFX;
+
     
     private enum MovementState { idle, running, jumping, falling } // 0 -> idle; 1 -> running; 2 -> jumping; 3 -> falling;
     private MovementState state;
@@ -35,7 +41,9 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer      = GetComponent<SpriteRenderer>();
         playerCollider2D    = GetComponent<BoxCollider2D>();
         terrainLayer        = GetComponent<LayerMask>();
-        
+        runningSFX          = GetComponent<AudioSource>();
+        runningSFX.clip     = runningSFXClip;
+        runningSFX.loop     = true;
         
         /*
         From when I was trying to alter the gravity of the game itself, instead I found a different way to solve the 
@@ -79,6 +87,15 @@ public class PlayerMovement : MonoBehaviour
                 spriteRenderer.flipX     = false; // This will flip the sprite to face the correct way
                 state = MovementState.running;
                 playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+                
+                if(isGrounded())
+                {
+                    PlayStepSound();
+                }
+                else
+                {
+                    StopStepSound();
+                }
             }
 
             // Move Left
@@ -88,12 +105,23 @@ public class PlayerMovement : MonoBehaviour
                 spriteRenderer.flipX     = true; 
                 state = MovementState.running;
                 playerAnimator.SetFloat("moveSpeed", joystickInputMagnitude);
+                
+                if(isGrounded())
+                {
+                    PlayStepSound();
+                } 
+                else
+                {
+                    StopStepSound();
+                }
+                
             }
             
             // Idle
             else 
             {
                 state = MovementState.idle;
+                StopStepSound();
             } 
 
             // Jumping
@@ -101,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
                 state = MovementState.jumping;
+                StopStepSound();
+                jumpingSFX.Play();
             }
 
             // Falling
@@ -108,12 +138,29 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerCharacter.velocity += UnityEngine.Vector2.up * Physics2D.gravity.y * (fallSpeed - 1) * Time.deltaTime;
                 state = MovementState.falling;
+                StopStepSound();
+                if(isGrounded())
+                {
+                    landingSFX.Play();
+                }
             }
 
             playerAnimator.SetInteger("moveState", (int)state);
         }
     }
 
+    void PlayStepSound()
+    {
+        if(!runningSFX.isPlaying)
+        {
+            runningSFX.Play();
+        }
+    }
+
+    void StopStepSound()
+    {
+        runningSFX.Stop();
+    }
     private bool isGrounded()
     {
         /* 

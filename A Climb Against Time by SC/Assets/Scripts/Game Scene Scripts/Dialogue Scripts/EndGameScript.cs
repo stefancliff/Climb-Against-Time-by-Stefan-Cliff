@@ -7,7 +7,32 @@ public class EndGameScript : MonoBehaviour
 {
     public Dialogue dialogue;
     public TimerController timerController;
+    private CameraScript cameraScript;
 
+    void Start()
+    {
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        
+        if(playerObject != null)
+        {
+            Transform cameraTransform = playerObject.transform.Find("Camera(Clone)");
+
+            if(cameraTransform != null)
+            {
+                cameraScript = cameraTransform.GetComponent<CameraScript>();
+            }
+            else
+            {
+            Debug.LogError("Camera GameObject not found");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player Object not found");
+        }
+        
+        
+    }
 
     public void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,15 +40,18 @@ public class EndGameScript : MonoBehaviour
         {
             DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
             dialogueManager.StartConversation(dialogue);
-            this.timerController.StopTimer();
-            CameraScript cameraScript = GetComponent<CameraScript>();
-            cameraScript.isAtEndOfLevel = true;
-            
-
-            // Here I am deactivating the trigger so that it won't run again if the player enters
-            gameObject.SetActive(false);
+            timerController.EndGameTimer();
+            if(cameraScript != null)
+            {
+                cameraScript.isAtEndOfLevel = true;
+            }
         }
+        StartCoroutine(LoadCreditsSceneAfterDelay());
+    }
 
-        SceneManager.LoadScene("Main Menu");
+    IEnumerator LoadCreditsSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Credits Scene");
     }
 }
