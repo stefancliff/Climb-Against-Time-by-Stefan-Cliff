@@ -4,7 +4,7 @@
     - 
     -
 
-## Why did I make this game and what is it about?
+## What is it about and why was it made?
 
 The game design is that of a 2D pixel-art platformer, with the focus of the story being about self exploration, perception as well general/familiar thoughts and questions one asks oneself:
 
