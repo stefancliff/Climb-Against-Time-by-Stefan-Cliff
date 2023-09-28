@@ -1,8 +1,6 @@
 # Climb Against Time by Stefan Cliff
 
- The main technology I'll be using is Unity (version 2022.3.3f1), but some assisting ones are:
-    - 
-    -
+ The main technology used is Unity (version 2022.3.3f1)
 
 ## What is it about and why was it made?
 
