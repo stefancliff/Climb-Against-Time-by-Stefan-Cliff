@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        //UnityEngine.Debug.Log("Player Character Gravity = " + PlayerCharacter.gravityScale);
+        
     }
 
     private void PlayerInput()
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            float moveInput              = Input.GetAxisRaw("Horizontal"); //Using GetAxisRaw to allow the Player Characters movement to avoid the slip n slide feeling when you stop inputting
+            float moveInput              = Input.GetAxisRaw("Horizontal");
             bool  jumpInput              = Input.GetButtonDown("Jump");
             float joystickInputMagnitude = Mathf.Clamp(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")), 0f, 1f);
 
@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
             // Jumping
             if (jumpInput && isGrounded()) 
             {
-                playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); // Similar to before, as to keep the momentum of the players input
+                playerCharacter.velocity = new UnityEngine.Vector2(playerCharacter.velocity.x, jumpForce); 
                 state = MovementState.jumping;
                 StopStepSound();
                 jumpingSFX.Play();

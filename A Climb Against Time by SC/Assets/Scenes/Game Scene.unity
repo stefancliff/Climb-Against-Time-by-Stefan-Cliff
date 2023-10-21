@@ -25467,7 +25467,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1934915155}
-  - {fileID: 2030664719}
   - {fileID: 222561654}
   - {fileID: 1689894005}
   - {fileID: 1966959832}
@@ -95597,52 +95596,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6105042231588194630, guid: 16754a8b896cb2c47a79c8752eab99ec, type: 3}
   m_PrefabInstance: {fileID: 609378416174136070}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2030664718
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2030664719}
-  - component: {fileID: 2030664720}
-  m_Layer: 0
-  m_Name: Player Spawn Point (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2030664719
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030664718}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.06, y: 104.71, z: 0.99022675}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 254613026}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2030664720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030664718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33b92afea3bde4459bd28383ae41f37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPrefabToInstantiate: {fileID: 4043764641907311741, guid: 252087c0bda43724aa3e2a3f03980a1f, type: 3}
-  cameraPrefab: {fileID: 3664640844325069555, guid: 58f614e4b3c5fb844b0c6ecb0ae8f68a, type: 3}
 --- !u!1001 &2034006635
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -54,8 +54,6 @@ public class PlayerDeath : MonoBehaviour
         PlayerAnimator.SetBool("takeHit", takeHit);
         PlayerAvatar.enabled = true;
 
-        //Debug.Log("| " + damage + " <- Damage Taken | Health Remaining -> " + CurrentHealth + " |");
-
         if (CurrentHealth <= 0)
         {
             PlayerAnimator.SetTrigger("killPlayer");

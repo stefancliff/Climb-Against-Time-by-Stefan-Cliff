@@ -77,8 +77,6 @@ public class DialogueManager : MonoBehaviour
         isTyping          = true;
         dialogueText.text = "";
         
-        //Debug.Log("Typing sentence: " + sentence);
-
         foreach (char c in sentence.ToCharArray())
         {
             dialogueText.text += c;
@@ -87,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
-        //Debug.Log("Typing complete: " + sentence);
+        
     }
 
     private void EndDialogue()
@@ -123,40 +121,31 @@ public class DialogueManager : MonoBehaviour
 
     public void UpdateDialogueTriggers(int currentAttempt)
     {
-        //Debug.Log("Update Dialogue Triggers says the current attempt is: " + currentAttempt);
         switch(currentAttempt)
         {
             case 1:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-            
             case 2:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-            
             case 3:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-
             case 4:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-
             case 5:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-
             case 6:
                 EnableOrDisableDialogueTriggers(currentAttempt);
             break;
-            
         }
     }
 
     public void EnableOrDisableDialogueTriggers(int attemptNumber)
-    {
-        //Debug.Log("EnableOrDisableDialogueTriggers says the current attempt is: " + currentAttempt);
-        
+    {   
         for (int i = 0; i < dialogueTriggers.Length; i++)
         {
             if (i == currentAttempt - 1) 
@@ -168,6 +157,5 @@ public class DialogueManager : MonoBehaviour
                 dialogueTriggers[i].SetActive(false);
             }
         }
-
     }
 }

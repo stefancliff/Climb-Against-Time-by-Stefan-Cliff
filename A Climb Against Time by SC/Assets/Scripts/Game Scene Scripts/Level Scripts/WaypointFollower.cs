@@ -11,7 +11,7 @@ public class WaypointFollower : MonoBehaviour
     
     private void Update()
     {
-        if(Vector2.Distance(Waypoints[currentWaypointIndex].transform.position, transform.position) < 0.1f) // checking the distance between the current platform and the next one. Using .1f instead of 0f to avoid bugs/awkward moments
+        if(Vector2.Distance(Waypoints[currentWaypointIndex].transform.position, transform.position) < 0.1f) 
         {
             currentWaypointIndex++;
             
@@ -24,3 +24,5 @@ public class WaypointFollower : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, Waypoints[currentWaypointIndex].transform.position, Time.deltaTime * platformSpeed);
     }
 }
+
+// checking the distance between the current platform and the next one. Using .1f instead of 0f to avoid bugs/awkward moments
